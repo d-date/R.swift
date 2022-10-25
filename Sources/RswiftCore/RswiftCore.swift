@@ -271,11 +271,11 @@ func loadSwiftPackageGraph(packageURL: URL) throws -> PackageGraph {
       print("\(scope):\(diagnotic)")
   }
 
-  let packagePath = AbsolutePath(packageURL.path)
+  let packagePath = try AbsolutePath(validating: packageURL.path)
 
   let customToolchain = try UserToolchain(destination: .hostDestination())
   let manifestLoader = ManifestLoader(
-    toolchain: customToolchain.configuration,
+    toolchain: customToolchain,
     isManifestSandboxEnabled: false)
 
   let workspace = try Workspace(
